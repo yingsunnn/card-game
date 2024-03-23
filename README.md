@@ -1,6 +1,8 @@
 
 # Tech Stack
-
+- Java 21
+- Spring Boot 3.2.4
+- Lombok 1.18.32
 
 
 # Clarification And Assumption
@@ -19,3 +21,4 @@ Since this is a homework, I can not clarily requirements with you. So, I have ma
 # How to run
 
 # Swagger
+- [Local 8080 sagger page link](http://localhost:8080/swagger-ui.html)
