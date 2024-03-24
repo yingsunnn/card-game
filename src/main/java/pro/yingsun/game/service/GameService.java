@@ -31,7 +31,7 @@ public class GameService {
     try {
       Game game = this.gameRepository.createNewGame();
 
-      List<Card> shoe = new LinkedList<>();
+      LinkedList<Card> shoe = new LinkedList<>();
       for (int i = 0; i < gameCreation.getShoeSize(); i ++) {
         shoe.addAll(Deck.cards);
       }
@@ -59,10 +59,10 @@ public class GameService {
   public List<Game> getGames(List<String> ids) {
     List<Game> games = SerializationUtils.clone((ArrayList<Game>)this.gameRepository.getGames(ids));
 
-//    games.forEach(game -> {
-//      game.setShoe(null);
-//      Optional.ofNullable(game.getPlayers()).stream().flatMap(Collection::stream).forEach(player -> player.setCards(null));
-//    });
+    games.forEach(game -> {
+      game.setShoe(null);
+      Optional.ofNullable(game.getPlayers()).stream().flatMap(Collection::stream).forEach(player -> player.setCards(null));
+    });
 
     return games;
   }

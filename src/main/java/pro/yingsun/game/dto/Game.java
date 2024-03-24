@@ -16,6 +16,6 @@ import lombok.extern.jackson.Jacksonized;
 public class Game implements Serializable {
 
   private String gameId;
-  private LinkedList<Player> players;
-  private List<Card> shoe;
+  private List<Player> players;
+  private LinkedList<Card> shoe;
 }

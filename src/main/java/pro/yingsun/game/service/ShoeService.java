@@ -28,7 +28,7 @@ public class ShoeService {
         .orElseThrow(() -> new IllegalMonitorStateException("Another shoe operation is in progress"));
     try {
       Game game = this.gameRepository.getGame(gameId);
-      List<Card> shoe = Optional.ofNullable(game.getShoe())
+      LinkedList<Card> shoe = Optional.ofNullable(game.getShoe())
           .map(s -> this.increaseShoe(s, incrementSize))
           .orElseGet(() -> this.increaseShoe(new LinkedList<>(), incrementSize));
       game.setShoe(shoe);
@@ -37,7 +37,7 @@ public class ShoeService {
     }
   }
 
-  private List<Card> increaseShoe(List<Card> shoe, int incrementSize) {
+  private LinkedList<Card> increaseShoe(LinkedList<Card> shoe, int incrementSize) {
     for (int i = 0; i < incrementSize; i++) {
       shoe.addAll(Deck.cards);
     }

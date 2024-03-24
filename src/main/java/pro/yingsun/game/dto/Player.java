@@ -20,6 +20,5 @@ public class Player implements Serializable {
   private String playerId;
   @NotEmpty
   private String playerName;
-  @With
   private List<Card> cards;
 }
