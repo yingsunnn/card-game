@@ -35,7 +35,7 @@ public class PlayerController {
           @ApiResponse(
               description = "Player is added successfully. Returns all players of the game",
               responseCode = "200",
-              content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
+              content = @Content(schema = @Schema(implementation = Player.class))
           ),
           @ApiResponse(
               description = "Invalid request",
@@ -44,7 +44,7 @@ public class PlayerController {
           ),
       }
   )
-  public List<Player> addPlayerToGame(
+  public Player addPlayerToGame(
       @PathVariable("gameId") String gameId,
       @RequestBody Player player) {
     return this.playerService.addPlayerToGame(gameId, player);

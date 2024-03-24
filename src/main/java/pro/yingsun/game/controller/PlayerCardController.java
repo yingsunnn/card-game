@@ -55,9 +55,9 @@ public class PlayerCardController {
       summary = "Deal a card to the player",
       responses = {
           @ApiResponse(
-              description = "Dealt a card successfully. Returns all player's cards",
+              description = "Dealt a card successfully. Returns the card",
               responseCode = "200",
-              content = @Content(array = @ArraySchema(schema = @Schema(implementation = Card.class)))
+              content = @Content(schema = @Schema(implementation = Card.class))
           ),
           @ApiResponse(
               description = "Invalid request",
@@ -66,7 +66,7 @@ public class PlayerCardController {
           ),
       }
   )
-  public List<Card> dealCardToPlayer (
+  public Card dealCardToPlayer (
       @PathVariable("gameId") String gameId,
       @PathVariable("playerId") String playerId
   ) {

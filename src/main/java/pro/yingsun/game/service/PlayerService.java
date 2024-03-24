@@ -25,7 +25,7 @@ public class PlayerService {
   private final GameRepository gameRepository;
   private final DistributedLock lock;
 
-  public List<Player> addPlayerToGame(String gameId, Player player) {
+  public Player addPlayerToGame(String gameId, Player player) {
 
     final LockSignature lockSignature = this.lock.lock(LockKey.GAMES, gameId, LockKey.PLAYER)
         .orElseThrow(() -> new IllegalMonitorStateException("Another player operation is in progress"));
@@ -46,11 +46,7 @@ public class PlayerService {
 
       game.getPlayers().add(player);
 
-      List<Player> players = SerializationUtils.clone((ArrayList<Player>) game.getPlayers());
-
-      players.forEach(p -> p.setCards(null));
-
-      return players;
+      return player;
     } finally {
       this.lock.unlock(lockSignature);
     }

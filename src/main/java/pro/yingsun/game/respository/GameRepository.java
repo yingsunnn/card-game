@@ -1,6 +1,7 @@
 package pro.yingsun.game.respository;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,8 @@ public class GameRepository extends CommonRepository {
 
     String id = super.generateId();
     Game game = Game.builder()
+        .players(new ArrayList<>())
+        .shoe(new LinkedList<>())
         .gameId(id)
         .build();
 
