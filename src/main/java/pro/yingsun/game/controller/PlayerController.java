@@ -27,7 +27,7 @@ public class PlayerController {
 
   private final PlayerService playerService;
 
-  @PostMapping("{gameId}/players")
+  @PostMapping(value = "{gameId}/players", consumes = MediaType.APPLICATION_JSON_VALUE)
   @Operation(
       tags = "Player",
       summary = "Add a player to the game by game Id",

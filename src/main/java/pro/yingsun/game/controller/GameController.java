@@ -31,7 +31,7 @@ public class GameController {
 
   private final GameService gameService;
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @Operation(
       tags = "Game",
       summary = "Create a new game",

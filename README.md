@@ -19,6 +19,9 @@ Since this is a homework, I can not clarily requirements with you. So, I have ma
 5. Only the player themselves can see their own cards. Player can play cards only after all cards are dealed to player.
 
 # Scalability
+- Events 
+  - Remove old events
+  - Get events by game id
 
 # How to run
 

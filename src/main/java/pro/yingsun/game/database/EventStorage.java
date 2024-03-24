@@ -1,8 +1,16 @@
 package pro.yingsun.game.database;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import lombok.Getter;
+import pro.yingsun.game.dto.Event;
+
 public class EventStorage {
 
   private volatile static EventStorage singleton;
+
+  @Getter
+  private final PriorityQueue<Event> priorityQueue = new PriorityQueue<>(Comparator.comparing(Event::getCreatedAt));
 
   private EventStorage() {}
 
