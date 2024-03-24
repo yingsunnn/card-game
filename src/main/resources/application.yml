@@ -5,3 +5,8 @@ server:
 spring:
   application:
     name: Game API
+
+logging:
+  level:
+    root: INFO
+    pro.yingsun.game: DEBUG

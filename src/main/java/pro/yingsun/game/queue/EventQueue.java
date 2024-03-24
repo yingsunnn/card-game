@@ -10,7 +10,7 @@ public class EventQueue {
   private volatile static EventQueue singleton;
 
   @Getter
-  private final BlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(10000);
+  private final BlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(1000);
 
   private EventQueue() {}
 

@@ -2,6 +2,7 @@ package pro.yingsun.game.service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +49,8 @@ public class GameService {
     } finally {
       this.eventProducer.produce(Event.builder()
               .entity(EventEntity.GAME)
-              .description("Created game " + Optional.ofNullable(game).map(Game::getGameId).orElse(null))
+              .entityId(Optional.ofNullable(game).map(Game::getGameId).orElse(null))
+              .description("Created game")
               .createdAt(Instant.now())
           .build());
       this.lock.unlock(lockSignature);
@@ -63,7 +65,8 @@ public class GameService {
     } finally {
       this.eventProducer.produce(Event.builder()
           .entity(EventEntity.GAME)
-          .description("Deleted game " + id)
+          .entityId(id)
+          .description("Deleted game")
           .createdAt(Instant.now())
           .build());
       this.lock.unlock(lockSignature);
@@ -85,7 +88,8 @@ public class GameService {
     } finally {
       this.eventProducer.produce(Event.builder()
           .entity(EventEntity.GAME)
-          .description("Retrieved game " + ids)
+          .entityId(Optional.ofNullable(ids).map(Object::toString).orElse("all"))
+          .description("Retrieved games" )
           .createdAt(Instant.now())
           .build());
       this.lock.unlock(lockSignature);

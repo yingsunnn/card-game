@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pro.yingsun.game.dto.Event;
+import pro.yingsun.game.exception.ServerInternalException;
 import pro.yingsun.game.respository.EventRepository;
+import pro.yingsun.game.service.EventService;
 
 @Slf4j
 @Component
@@ -14,14 +16,15 @@ import pro.yingsun.game.respository.EventRepository;
 public class EventConsumer {
 
   private final BlockingQueue<Event> eventQueue = EventQueue.getInstance().getEventQueue();
-  private final EventRepository eventRepository;
+  private final EventService eventService;
 
   public void consume() {
-    Event event = this.eventQueue.poll();
-    log.debug("Consuming event: " + event);
-
-    if (Objects.nonNull(event)) {
-      this.eventRepository.addEvent(event);
+    try {
+      Event event = this.eventQueue.take();
+      log.debug("Consuming event: " + event);
+      this.eventService.addEvent(event);
+    } catch (InterruptedException e) {
+      throw new ServerInternalException("Failed when consuming event.", e);
     }
   }
 }

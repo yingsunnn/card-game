@@ -1,5 +1,6 @@
 package pro.yingsun.game.service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -11,12 +12,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pro.yingsun.game.dto.Card;
+import pro.yingsun.game.dto.Event;
 import pro.yingsun.game.dto.Game;
 import pro.yingsun.game.dto.Player;
+import pro.yingsun.game.enumeration.EventEntity;
 import pro.yingsun.game.exception.DataNotFoundException;
 import pro.yingsun.game.lock.DistributedLock;
 import pro.yingsun.game.lock.LockKey;
 import pro.yingsun.game.lock.LockSignature;
+import pro.yingsun.game.queue.EventProducer;
 import pro.yingsun.game.respository.GameRepository;
 
 @Service
@@ -25,6 +29,7 @@ public class PlayerCardService {
 
   private final GameRepository gameRepository;
   private final DistributedLock lock;
+  private final EventProducer eventProducer;
 
   public List<Card> getPlayerCards(String gameId, String playerId) {
     final LockSignature lockSignature = this.lock.lock(LockKey.GAMES, gameId, LockKey.SHOE)
@@ -38,6 +43,12 @@ public class PlayerCardService {
           .map(Player::getCards)
           .orElseThrow(() -> new DataNotFoundException("The player " + playerId + " doesn't exist."));
     } finally {
+      this.eventProducer.produce(Event.builder()
+          .entity(EventEntity.PLAYER)
+          .entityId(playerId)
+          .description("Get player's cards in game " + gameId)
+          .createdAt(Instant.now())
+          .build());
       this.lock.unlock(lockSignature);
     }
   }
@@ -67,6 +78,12 @@ public class PlayerCardService {
 
       return card;
     } finally {
+      this.eventProducer.produce(Event.builder()
+          .entity(EventEntity.PLAYER)
+          .entityId(playerId)
+          .description("Deal a card to player in game " + gameId)
+          .createdAt(Instant.now())
+          .build());
       this.lock.unlock(lockSignature);
     }
   }

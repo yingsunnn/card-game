@@ -1,5 +1,6 @@
 package pro.yingsun.game.service;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -9,11 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pro.yingsun.game.dto.Card;
 import pro.yingsun.game.dto.Deck;
+import pro.yingsun.game.dto.Event;
 import pro.yingsun.game.dto.Game;
 import pro.yingsun.game.dto.ShoeSummary;
+import pro.yingsun.game.enumeration.EventEntity;
 import pro.yingsun.game.lock.DistributedLock;
 import pro.yingsun.game.lock.LockKey;
 import pro.yingsun.game.lock.LockSignature;
+import pro.yingsun.game.queue.EventProducer;
 import pro.yingsun.game.respository.GameRepository;
 
 @Service
@@ -22,6 +26,7 @@ public class ShoeService {
 
   private final GameRepository gameRepository;
   private final DistributedLock lock;
+  private final EventProducer eventProducer;
 
   public void addDecksToShoe(String gameId, int incrementSize) {
     final LockSignature lockSignature = this.lock.lock(LockKey.GAMES, gameId, LockKey.SHOE)
@@ -33,6 +38,12 @@ public class ShoeService {
           .orElseGet(() -> this.increaseShoe(new LinkedList<>(), incrementSize));
       game.setShoe(shoe);
     } finally {
+      this.eventProducer.produce(Event.builder()
+          .entity(EventEntity.SHOE)
+          .entityId(gameId)
+          .description("Increase  " + incrementSize + " decks to the shoe")
+          .createdAt(Instant.now())
+          .build());
       this.lock.unlock(lockSignature);
     }
   }
@@ -51,6 +62,12 @@ public class ShoeService {
       Game game = this.gameRepository.getGame(gameId);
       Collections.shuffle(game.getShoe());
     } finally {
+      this.eventProducer.produce(Event.builder()
+          .entity(EventEntity.SHOE)
+          .entityId(gameId)
+          .description("Shuffle the shoe")
+          .createdAt(Instant.now())
+          .build());
       this.lock.unlock(lockSignature);
     }
   }
@@ -75,6 +92,12 @@ public class ShoeService {
 
       return shoeSummary;
     } finally {
+      this.eventProducer.produce(Event.builder()
+          .entity(EventEntity.SHOE)
+          .entityId(gameId)
+          .description("Retrieve shoe summary")
+          .createdAt(Instant.now())
+          .build());
       this.lock.unlock(lockSignature);
     }
   }

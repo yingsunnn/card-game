@@ -1,5 +1,6 @@
 package pro.yingsun.game.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 
@@ -22,7 +23,8 @@ public enum CardSuit {
     return this.value;
   }
 
-  public CardSuit from (String value) {
+  @JsonCreator
+  public static CardSuit from (String value) {
     return Arrays.stream(CardSuit.values())
         .filter(cardSuit ->  cardSuit.value.equalsIgnoreCase(value))
         .findFirst()

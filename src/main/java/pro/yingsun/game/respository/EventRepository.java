@@ -3,9 +3,11 @@ package pro.yingsun.game.respository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import pro.yingsun.game.database.EventStorage;
 import pro.yingsun.game.dto.Event;
+import pro.yingsun.game.enumeration.EventEntity;
 
 @Repository
 public class EventRepository {
@@ -16,7 +18,12 @@ public class EventRepository {
     this.priorityQueue.add(event);
   }
 
-  public List<Event> getEvents() {
-    return new ArrayList<>(this.priorityQueue);
+  public List<Event> getEvents(EventEntity entity, String entityId) {
+    List<Event> events = new ArrayList<>(this.priorityQueue);
+
+    return events.stream()
+        .filter(event -> entity == null || entity == event.getEntity())
+        .filter(event -> StringUtils.isBlank(entityId) || entityId.equals(event.getEntityId()))
+        .toList();
   }
 }

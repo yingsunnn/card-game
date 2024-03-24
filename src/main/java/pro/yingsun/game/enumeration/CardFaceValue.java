@@ -1,5 +1,6 @@
 package pro.yingsun.game.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 
@@ -36,7 +37,8 @@ public enum CardFaceValue {
     return this.value;
   }
 
-  public CardFaceValue from (String name) {
+  @JsonCreator
+  public static CardFaceValue from (String name) {
     return Arrays.stream(CardFaceValue.values())
         .filter(cardFaceValue -> cardFaceValue.name.equalsIgnoreCase(name))
         .findFirst()

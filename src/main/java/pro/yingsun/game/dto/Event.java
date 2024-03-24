@@ -12,6 +12,7 @@ import pro.yingsun.game.enumeration.EventEntity;
 public class Event {
 
   EventEntity entity;
+  String entityId;
   String description;
   Instant createdAt;
 }
