@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pro.yingsun.game.dto.ErrorResponse;
+import pro.yingsun.game.exception.DataNotFoundException;
 import pro.yingsun.game.exception.DuplicateDataException;
 
 @Slf4j
@@ -16,12 +17,39 @@ import pro.yingsun.game.exception.DuplicateDataException;
 @ControllerAdvice
 public class ExceptionsHandler {
 
+  @ExceptionHandler(IllegalMonitorStateException.class)
+  public ErrorResponse handleIllegalMonitorStateException(
+      HttpServletResponse response,
+      IllegalMonitorStateException e
+  ) {
+    response.setStatus(HttpStatus.TOO_EARLY.value());
+    return buildErrorResponse(e, response);
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ErrorResponse handleIllegalArgumentException(
+      HttpServletResponse response,
+      IllegalArgumentException e
+  ) {
+    response.setStatus(HttpStatus.BAD_REQUEST.value());
+    return buildErrorResponse(e, response);
+  }
+
   @ExceptionHandler(DuplicateDataException.class)
   public ErrorResponse handleDuplicateDataException(
       HttpServletResponse response,
       DuplicateDataException e
   ) {
     response.setStatus(HttpStatus.CONFLICT.value());
+    return buildErrorResponse(e, response);
+  }
+
+  @ExceptionHandler(DataNotFoundException.class)
+  public ErrorResponse handleDataNotFoundException(
+      HttpServletResponse response,
+      DataNotFoundException e
+  ) {
+    response.setStatus(HttpStatus.NOT_FOUND.value());
     return buildErrorResponse(e, response);
   }
 

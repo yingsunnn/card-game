@@ -1,7 +1,6 @@
 package pro.yingsun.game.respository;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -22,8 +21,6 @@ public class GameRepository extends CommonRepository {
     String id = super.generateId();
     Game game = Game.builder()
         .gameId(id)
-        .shoe(new LinkedList<>())
-        .players(new ArrayList<>())
         .build();
 
     if (this.games.containsKey(id)) {
@@ -46,11 +43,20 @@ public class GameRepository extends CommonRepository {
     this.games.remove(id);
   }
 
-  public List<Game> getGame(List<String> ids) {
+  public List<Game> getGames(List<String> ids) {
     if (CollectionUtils.isEmpty(ids)) {
       return new ArrayList<>(this.games.values());
     }
 
     return ids.stream().filter(this.games::containsKey).map(this.games::get).toList();
+  }
+
+  public Game getGame(String id) {
+
+    if (!this.games.containsKey(id)) {
+      throw new DataNotFoundException("Game " + id + " doesn't exist.");
+    }
+
+    return this.games.get(id);
   }
 }

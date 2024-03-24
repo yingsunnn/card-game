@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class GameController {
       }
   )
   public Game createGame(
-      @RequestBody GameCreation gameCreation
+      @Valid @RequestBody GameCreation gameCreation
   ) {
     return this.gameService.createGame(gameCreation);
   }
