@@ -9,11 +9,21 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pro.yingsun.game.dto.ErrorResponse;
+import pro.yingsun.game.exception.DuplicateDataException;
 
 @Slf4j
 @ResponseBody
 @ControllerAdvice
 public class ExceptionsHandler {
+
+  @ExceptionHandler(DuplicateDataException.class)
+  public ErrorResponse handleDuplicateDataException(
+      HttpServletResponse response,
+      DuplicateDataException e
+  ) {
+    response.setStatus(HttpStatus.CONFLICT.value());
+    return buildErrorResponse(e, response);
+  }
 
   @ExceptionHandler(Exception.class)
   public ErrorResponse handleUnknownException(
