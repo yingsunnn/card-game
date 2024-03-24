@@ -20,7 +20,7 @@ import pro.yingsun.game.service.EventService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "events", produces = MediaType.APPLICATION_JSON_VALUE)
-public class EeventController {
+public class EventController {
 
   private final EventService eventService;
 

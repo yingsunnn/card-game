@@ -3,10 +3,10 @@
 - Java 21
 - Spring Boot 3.2.4
 - Lombok 1.18.32
-
+- Mockito 5.11.0
 
 # Clarification And Assumption
-Since this is a homework, I can not clarily requirements with you. So, I have made some decisions based on my understanding.
+Since this is a homework, I can not clarify requirements with you. So, I have made some decisions based on my understanding.
 
 1. I assume that there could be tens of thousands of games going on simultaneously, with no more than 20 players in each game, and the shoe size for each game not exceeding 10 decks.
 
@@ -16,14 +16,18 @@ Since this is a homework, I can not clarily requirements with you. So, I have ma
 
 4. I assume that players can have the same name. Therefore, I won't check for duplicated requests when adding a player, as I cannot determine if it's a duplicate player.
 
-5. Only the player themselves can see their own cards. Player can play cards only after all cards are dealed to player.
-
 # Scalability
+- Use Redis instead of in-memory
 - Events 
   - Remove old events
   - Get events by game id
+- Permission
+  - Only the player themselves can see their own cards.
+- Game rule
+  - Game flow control
 
-# How to run
+# How to test
 
 # Swagger
-- [Local 8080 sagger page link](http://localhost:8080/swagger-ui.html)
+[Local 8080 sagger page link](http://localhost:8080/swagger-ui.html)
+![1](swagger_screenshot.jpg)
