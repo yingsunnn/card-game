@@ -3,6 +3,7 @@ package pro.yingsun.game.enumeration;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
+import lombok.Getter;
 
 public enum CardFaceValue {
   ACE("Ace", 1),
@@ -20,6 +21,7 @@ public enum CardFaceValue {
   KING("King", 13);
 
   private final String name;
+  @Getter
   private final int value;
 
   CardFaceValue(String name, int value) {
@@ -33,10 +35,6 @@ public enum CardFaceValue {
     return this.name;
   }
 
-  public int getValue(){
-    return this.value;
-  }
-
   @JsonCreator
   public static CardFaceValue from (String name) {
     return Arrays.stream(CardFaceValue.values())
@@ -44,5 +42,4 @@ public enum CardFaceValue {
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("Invalid value for CardFaceValue."));
   }
-
 }

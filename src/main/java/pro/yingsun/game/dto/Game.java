@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -18,4 +19,18 @@ public class Game implements Serializable {
   private String gameId;
   private List<Player> players;
   private LinkedList<Card> shoe;
+
+  public void increaseShoe(int incrementSize) {
+    if (incrementSize <= 0) {
+      throw new IllegalArgumentException("Shoe increment size must greater than 0");
+    }
+
+    if (Objects.isNull(this.shoe)) {
+      this.shoe = new LinkedList<>();
+    }
+
+    for (int i = 0; i < incrementSize; i++) {
+      shoe.addAll(Deck.cards);
+    }
+  }
 }

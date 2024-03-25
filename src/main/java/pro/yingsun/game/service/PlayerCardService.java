@@ -60,15 +60,15 @@ public class PlayerCardService {
       Game game = this.gameRepository.getGame(gameId);
 
       if (CollectionUtils.isEmpty(game.getShoe())) {
-        throw  new DataNotFoundException("Shoe of the game " + gameId + " is empty.");
+        throw new DataNotFoundException("Shoe of the game " + gameId + " is empty.");
       }
-
-      Card card = game.getShoe().poll();
 
       Player player = Optional.ofNullable(game.getPlayers()).stream().flatMap(Collection::stream)
           .filter(p -> p.getPlayerId().equals(playerId))
           .findFirst()
           .orElseThrow(() -> new DataNotFoundException("The player " + playerId + " doesn't exist."));
+
+      Card card = game.getShoe().poll();
 
       Optional.ofNullable(player.getCards()).orElseGet(() -> {
             List<Card> cards = new ArrayList<>();

@@ -20,15 +20,15 @@ public class GameRepository extends CommonRepository {
   public Game createNewGame() {
 
     String id = super.generateId();
+    if (this.games.containsKey(id)) {
+      throw new DuplicateDataException("The game " + id + "already exists.");
+    }
+
     Game game = Game.builder()
         .players(new ArrayList<>())
         .shoe(new LinkedList<>())
         .gameId(id)
         .build();
-
-    if (this.games.containsKey(id)) {
-      throw new DuplicateDataException("The game " + id + "already exists.");
-    }
 
     this.games.put(id, game);
     return game;

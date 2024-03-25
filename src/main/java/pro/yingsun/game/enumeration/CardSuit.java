@@ -12,7 +12,6 @@ public enum CardSuit {
 
   private final String value;
 
-
   CardSuit(String value) {
     this.value = value;
   }

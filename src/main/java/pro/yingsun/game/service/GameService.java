@@ -2,16 +2,12 @@ package pro.yingsun.game.service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.stereotype.Service;
-import pro.yingsun.game.dto.Card;
-import pro.yingsun.game.dto.Deck;
 import pro.yingsun.game.dto.Event;
 import pro.yingsun.game.dto.Game;
 import pro.yingsun.game.dto.GameCreation;
@@ -37,14 +33,7 @@ public class GameService {
     Game game = null;
     try {
       game = this.gameRepository.createNewGame();
-
-      LinkedList<Card> shoe = new LinkedList<>();
-      for (int i = 0; i < gameCreation.getShoeSize(); i ++) {
-        shoe.addAll(Deck.cards);
-      }
-
-      game.setShoe(shoe);
-
+      game.increaseShoe(gameCreation.getShoeSize());
       return game;
     } finally {
       this.eventProducer.produce(Event.builder()

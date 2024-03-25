@@ -16,18 +16,12 @@ Since this is a homework, I can not clarify requirements with you. So, I have ma
 
 4. I assume that players can have the same name. Therefore, I won't check for duplicated requests when adding a player, as I cannot determine if it's a duplicate player.
 
-# Scalability
-- Use Redis instead of in-memory
-- Events 
-  - Remove old events
-  - Get events by game id
-- Permission
-  - Only the player themselves can see their own cards.
-- Game rule
-  - Game flow control
+# How To Run
 
-# How to test
-
-# Swagger
+## Run endpoints in Swagger page
 [Local 8080 sagger page link](http://localhost:8080/swagger-ui.html)
-![1](swagger_screenshot.jpg)
+![sagger page](swagger_screenshot.jpg)
+
+## Run endpoints in Postman
+Import file [Game.postman_collection.json](Game.postman_collection.json) and [Local.postman_environment.json](Local.postman_environment.json) to your postman.
+![Postman game collection](postman_game_collection.jpg)

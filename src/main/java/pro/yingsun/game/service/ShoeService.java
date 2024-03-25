@@ -33,26 +33,16 @@ public class ShoeService {
         .orElseThrow(() -> new IllegalMonitorStateException("Another shoe operation is in progress"));
     try {
       Game game = this.gameRepository.getGame(gameId);
-      LinkedList<Card> shoe = Optional.ofNullable(game.getShoe())
-          .map(s -> this.increaseShoe(s, incrementSize))
-          .orElseGet(() -> this.increaseShoe(new LinkedList<>(), incrementSize));
-      game.setShoe(shoe);
+      game.increaseShoe(incrementSize);
     } finally {
       this.eventProducer.produce(Event.builder()
           .entity(EventEntity.SHOE)
           .entityId(gameId)
-          .description("Increase  " + incrementSize + " decks to the shoe")
+          .description("Increase " + incrementSize + " decks to the shoe")
           .createdAt(Instant.now())
           .build());
       this.lock.unlock(lockSignature);
     }
-  }
-
-  private LinkedList<Card> increaseShoe(LinkedList<Card> shoe, int incrementSize) {
-    for (int i = 0; i < incrementSize; i++) {
-      shoe.addAll(Deck.cards);
-    }
-    return shoe;
   }
 
   public void shuffleShoe(String gameId) {

@@ -12,7 +12,7 @@
 	<artifactId>game</artifactId>
 	<version>1.0</version>
 	<name>Game</name>
-	<description>Cards Game</description>
+	<description>Game API</description>
 	<properties>
 		<java.version>21</java.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.4.0</springdoc-openapi-starter-webmvc-ui.version>

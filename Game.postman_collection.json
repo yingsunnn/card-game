@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "cb87792d-17f6-402c-9560-7215a74af6e6",
+		"name": "Game",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "353386"
+	},
+	"item": [
+		{
+			"name": "Create a new game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"game_id\", jsonData.gameId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shoeSize\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/games",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a game",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get games",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games"
+					],
+					"query": [
+						{
+							"key": "ids",
+							"value": "d22c4275-1d1f-4074-8d09-a861c42a6ca2,8f0cfcee-fa0f-43eb-b36a-d2a0a56e8010",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Increase shoe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/shoe/increment/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"shoe",
+						"increment",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shuffle shoe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/shoe/shuffle",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"shoe",
+						"shuffle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shoe summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/shoe",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"shoe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"player_id\", jsonData.playerId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"playerName\": \"test player 4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/players",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete player",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/players/a9a02001-001c-4aa4-b491-765f50c05b72",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"players",
+						"a9a02001-001c-4aa4-b491-765f50c05b72"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all players",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/players",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get player's card",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/players/{{player_id}}/cards",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"players",
+						"{{player_id}}",
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deal card to player",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/games/{{game_id}}/players/{{player_id}}/cards",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"games",
+						"{{game_id}}",
+						"players",
+						"{{player_id}}",
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/events?entity=game&entityId=4a00953e-8d15-4e46-97eb-9c7c8c697ca6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"events"
+					],
+					"query": [
+						{
+							"key": "entity",
+							"value": "game"
+						},
+						{
+							"key": "entityId",
+							"value": "4a00953e-8d15-4e46-97eb-9c7c8c697ca6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

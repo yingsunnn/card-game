@@ -17,6 +17,7 @@ import pro.yingsun.game.dto.Game;
 import pro.yingsun.game.dto.Player;
 import pro.yingsun.game.dto.PlayerSummary;
 import pro.yingsun.game.enumeration.EventEntity;
+import pro.yingsun.game.exception.DataNotFoundException;
 import pro.yingsun.game.lock.DistributedLock;
 import pro.yingsun.game.lock.LockKey;
 import pro.yingsun.game.lock.LockSignature;
@@ -69,13 +70,16 @@ public class PlayerService {
     try {
       Game game = this.gameRepository.getGame(gameId);
 
-      List<Player> players = Optional.ofNullable(game.getPlayers()).stream().flatMap(Collection::stream)
-          .filter(player -> !playerId.equals(player.getPlayerId()))
-          .toList();
+      Player player = game.getPlayers().stream()
+          .filter(p -> playerId.equals(p.getPlayerId()))
+          .findAny()
+          .orElseThrow(() -> new DataNotFoundException("Player " + playerId + " doesn't exist."));
 
-      game.setPlayers(players);
+      game.getPlayers().remove(player);
 
-      return players;
+      List<Player> result = SerializationUtils.clone((ArrayList<Player>)game.getPlayers());
+      result.forEach(p -> p.setCards(null));
+      return result;
     } finally {
       this.eventProducer.produce(Event.builder()
           .entity(EventEntity.PLAYER)
