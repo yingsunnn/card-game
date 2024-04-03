@@ -1,7 +1,6 @@
 package pro.yingsun.game.respository;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -13,25 +12,16 @@ import pro.yingsun.game.exception.DataNotFoundException;
 import pro.yingsun.game.exception.DuplicateDataException;
 
 @Repository
-public class GameRepository extends CommonRepository {
+public class GameRepository {
 
   private final Map<String, Game> games = GameStorage.getInstance().getGames();
 
-  public Game createNewGame() {
-
-    String id = super.generateId();
-    if (this.games.containsKey(id)) {
-      throw new DuplicateDataException("The game " + id + "already exists.");
+  public void createNewGame(Game game) {
+    if (this.games.containsKey(game.getGameId())) {
+      throw new DuplicateDataException("The game " + game.getGameId() + "already exists.");
     }
 
-    Game game = Game.builder()
-        .players(new ArrayList<>())
-        .shoe(new LinkedList<>())
-        .gameId(id)
-        .build();
-
-    this.games.put(id, game);
-    return game;
+    this.games.put(game.getGameId(), game);
   }
 
   public void deleteGame (String id) {

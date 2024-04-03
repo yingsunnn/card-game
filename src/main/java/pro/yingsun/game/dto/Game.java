@@ -21,10 +21,6 @@ public class Game implements Serializable {
   private LinkedList<Card> shoe;
 
   public void increaseShoe(int incrementSize) {
-    if (incrementSize <= 0) {
-      throw new IllegalArgumentException("Shoe increment size must greater than 0");
-    }
-
     if (Objects.isNull(this.shoe)) {
       this.shoe = new LinkedList<>();
     }

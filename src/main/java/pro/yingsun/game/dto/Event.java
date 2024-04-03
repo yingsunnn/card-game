@@ -11,6 +11,7 @@ import pro.yingsun.game.enumeration.EventEntity;
 @Value
 public class Event {
 
+  String gameId;
   EventEntity entity;
   String entityId;
   String description;

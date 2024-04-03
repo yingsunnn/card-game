@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ import pro.yingsun.game.respository.GameRepository;
 
 @Service
 @RequiredArgsConstructor
-public class PlayerService {
+public class PlayerService extends CommonService {
   private final GameRepository gameRepository;
   private final DistributedLock lock;
   private final EventProducer eventProducer;
@@ -39,7 +38,7 @@ public class PlayerService {
       Game game = this.gameRepository.getGame(gameId);
 
       if (Objects.isNull(player.getPlayerId())) {
-        player.setPlayerId(UUID.randomUUID().toString());
+        player.setPlayerId(super.generateId());
       }
 
       if (Objects.isNull(player.getCards())) {
@@ -55,6 +54,7 @@ public class PlayerService {
       return player;
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.PLAYER)
           .entityId(player.getPlayerId())
           .description("Add the player to the game " + gameId)
@@ -82,6 +82,7 @@ public class PlayerService {
       return result;
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.PLAYER)
           .entityId(playerId)
           .description("Delete the player from the game " + gameId)
@@ -108,6 +109,7 @@ public class PlayerService {
           .toList();
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.PLAYER)
           .entityId("all")
           .description("Retrieve all players of the game " + gameId)

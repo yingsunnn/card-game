@@ -1,8 +1,8 @@
-package pro.yingsun.game.respository;
+package pro.yingsun.game.service;
 
 import java.util.UUID;
 
-public class CommonRepository {
+public class CommonService {
 
   protected String generateId () {
     return UUID.randomUUID().toString();

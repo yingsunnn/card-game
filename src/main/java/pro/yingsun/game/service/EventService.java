@@ -17,7 +17,7 @@ public class EventService {
     this.eventRepository.addEvent(event);
   }
 
-  public List<Event> getEvents(EventEntity entity, String entityId) {
-    return this.eventRepository.getEvents(entity, entityId);
+  public List<Event> getEvents(String gameId, EventEntity entity, String entityId) {
+    return this.eventRepository.getEvents(gameId, entity, entityId);
   }
 }

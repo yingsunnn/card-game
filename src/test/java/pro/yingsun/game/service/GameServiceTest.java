@@ -33,11 +33,9 @@ class GameServiceTest {
 
   @Test
   void testCreateGame_addedTwoDecksToShoe() {
-    Game game = Game.builder().gameId("test_id").build();
     when(this.lock.lock(LockKey.GAMES)).thenReturn(Optional.of(LockSignature.builder().build()));
-    when(this.gameRepository.createNewGame()).thenReturn(game);
 
-    this.gameService.createGame(GameCreation.builder().shoeSize(2).build());
+    Game game = this.gameService.createGame(GameCreation.builder().shoeSize(2).build());
 
     assertThat(game.getShoe()).isNotEmpty().hasSize(104);
   }

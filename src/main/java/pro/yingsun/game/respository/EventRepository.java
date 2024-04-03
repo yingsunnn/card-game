@@ -18,10 +18,11 @@ public class EventRepository {
     this.priorityQueue.add(event);
   }
 
-  public List<Event> getEvents(EventEntity entity, String entityId) {
+  public List<Event> getEvents(String gameId, EventEntity entity, String entityId) {
     List<Event> events = new ArrayList<>(this.priorityQueue);
 
     return events.stream()
+        .filter(event -> StringUtils.isBlank(gameId) || gameId.equalsIgnoreCase(event.getGameId()))
         .filter(event -> entity == null || entity == event.getEntity())
         .filter(event -> StringUtils.isBlank(entityId) || entityId.equals(event.getEntityId()))
         .toList();

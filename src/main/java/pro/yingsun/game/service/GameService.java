@@ -3,6 +3,7 @@ package pro.yingsun.game.service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import pro.yingsun.game.respository.GameRepository;
 
 @Service
 @RequiredArgsConstructor
-public class GameService {
+public class GameService extends CommonService {
 
   private final GameRepository gameRepository;
   private final DistributedLock lock;
@@ -30,15 +31,20 @@ public class GameService {
 
     final LockSignature lockSignature = this.lock.lock(LockKey.GAMES)
         .orElseThrow(() -> new IllegalMonitorStateException("Another game operation is in progress"));
-    Game game = null;
+    Game game = Game.builder()
+        .players(new ArrayList<>())
+        .shoe(new LinkedList<>())
+        .gameId(super.generateId())
+        .build();
     try {
-      game = this.gameRepository.createNewGame();
+      this.gameRepository.createNewGame(game);
       game.increaseShoe(gameCreation.getShoeSize());
       return game;
     } finally {
       this.eventProducer.produce(Event.builder()
+              .gameId(game.getGameId())
               .entity(EventEntity.GAME)
-              .entityId(Optional.ofNullable(game).map(Game::getGameId).orElse(null))
+              .entityId(game.getGameId())
               .description("Created game")
               .createdAt(Instant.now())
           .build());
@@ -53,6 +59,7 @@ public class GameService {
       this.gameRepository.deleteGame(id);
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(id)
           .entity(EventEntity.GAME)
           .entityId(id)
           .description("Deleted game")
@@ -75,9 +82,11 @@ public class GameService {
 
       return games;
     } finally {
+      String gameIds = Optional.ofNullable(ids).map(Object::toString).orElse("all");
       this.eventProducer.produce(Event.builder()
+          .gameId(gameIds)
           .entity(EventEntity.GAME)
-          .entityId(Optional.ofNullable(ids).map(Object::toString).orElse("all"))
+          .entityId(gameIds)
           .description("Retrieved games" )
           .createdAt(Instant.now())
           .build());

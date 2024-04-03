@@ -24,7 +24,7 @@ public class ShoeController {
 
   private final ShoeService shoeService;
 
-  @PostMapping("{gameId}/shoe/increment/{incrementSize}")
+  @PostMapping("{gameId}/shoe/increment/{incrementSize:\\d+}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @Operation(
       tags = "Shoe",

@@ -3,11 +3,8 @@ package pro.yingsun.game.service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -44,6 +41,7 @@ public class PlayerCardService {
           .orElseThrow(() -> new DataNotFoundException("The player " + playerId + " doesn't exist."));
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.PLAYER)
           .entityId(playerId)
           .description("Get player's cards in game " + gameId)
@@ -79,6 +77,7 @@ public class PlayerCardService {
       return card;
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.PLAYER)
           .entityId(playerId)
           .description("Deal a card to player in game " + gameId)

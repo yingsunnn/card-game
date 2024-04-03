@@ -42,9 +42,10 @@ public class EventController {
       }
   )
   public List<Event> getEvents (
+      @RequestParam(value = "gameId", required = false) String gameId,
       @RequestParam(value = "entity", required = false) EventEntity entity,
       @RequestParam(value = "entityId", required = false) String entityId
   ) {
-    return this.eventService.getEvents(entity, entityId);
+    return this.eventService.getEvents(gameId, entity, entityId);
   }
 }

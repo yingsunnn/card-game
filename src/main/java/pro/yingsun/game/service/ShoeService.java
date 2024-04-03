@@ -36,6 +36,7 @@ public class ShoeService {
       game.increaseShoe(incrementSize);
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.SHOE)
           .entityId(gameId)
           .description("Increase " + incrementSize + " decks to the shoe")
@@ -53,6 +54,7 @@ public class ShoeService {
       Collections.shuffle(game.getShoe());
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.SHOE)
           .entityId(gameId)
           .description("Shuffle the shoe")
@@ -83,6 +85,7 @@ public class ShoeService {
       return shoeSummary;
     } finally {
       this.eventProducer.produce(Event.builder()
+          .gameId(gameId)
           .entity(EventEntity.SHOE)
           .entityId(gameId)
           .description("Retrieve shoe summary")
